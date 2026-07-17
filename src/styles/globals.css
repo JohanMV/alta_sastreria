@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Italiana&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #f3eee5;
+  --color-ivory-light: #faf8f3;
+  --color-ink: #171814;
+  --color-ink-soft: #34352f;
+  --color-gold: #a8844b;
+  --color-gold-light: #d6c39e;
+  --color-sage: #6e7465;
+  --font-display: "Italiana", "Times New Roman", serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --shadow-editorial: 0 24px 70px rgb(23 24 20 / 0.14);
+}
+
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--color-ivory); color: var(--color-ink); font-family: var(--font-sans); }
+body:has([data-modal="open"]) { overflow: hidden; }
+::selection { background: var(--color-gold); color: white; }
+
+@layer base {
+  button, a, input, select, textarea { @apply focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  h1, h2, h3 { text-wrap: balance; }
+}
+
+@layer components {
+  .eyebrow { @apply text-[0.68rem] font-semibold tracking-[0.25em] uppercase text-gold; }
+  .section-shell { @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-14; }
+  .gold-rule { @apply h-px w-10 bg-gold; }
+  .glass-nav { background: color-mix(in srgb, var(--color-ivory) 90%, transparent); backdrop-filter: blur(18px); }
+  .image-overlay { background: linear-gradient(180deg, transparent 35%, rgb(10 11 9 / .82) 100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
