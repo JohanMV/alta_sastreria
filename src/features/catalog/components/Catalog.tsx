@@ -107,7 +107,7 @@ export function Catalog({ limit = 6, showFullCollectionLink = true, showHeading 
         </div>
 
         <div id="catalog-grid" className="scroll-mt-28">
-          <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-10 sm:gap-x-5 sm:gap-y-12 lg:mt-12 lg:grid-cols-3">
+          <div className="mt-8 grid w-[calc(100vw-2.5rem)] grid-cols-2 gap-x-3 gap-y-10 sm:w-auto sm:gap-x-5 sm:gap-y-12 lg:mt-12 lg:grid-cols-3">
             {visibleProducts.map((product, index) => <Reveal key={product.id} delay={(index % 3) * 0.08} className="min-w-0"><ProductCard product={product} onSelect={setSelected} /></Reveal>)}
           </div>
           {!filtered.length && <div className="py-20 text-center"><p className="text-ink-soft/75">No hay prendas disponibles con esta combinación.</p><button type="button" onClick={clearFilters} className="mt-4 min-h-11 text-sm font-semibold text-gold underline">Ver toda la colección</button></div>}
