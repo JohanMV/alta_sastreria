@@ -12,8 +12,12 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
         <span className="absolute bottom-4 right-4 grid size-11 translate-y-3 place-items-center bg-ivory-light opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100"><ArrowUpRight size={18} /></span>
       </button>
       <div className="flex items-start justify-between gap-4 pt-4">
-        <div><p className="text-[0.62rem] uppercase tracking-[0.18em] text-gold">{product.category}</p><h3 className="mt-1 font-display text-2xl">{product.name}</h3></div>
-        <p className="whitespace-nowrap pt-5 text-sm">S/ {(product.rentalPrice ?? product.price).toLocaleString("es-PE")} <span className="text-ink-soft/50">{product.rentalPrice ? "+" : ""}</span></p>
+        <div><p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-gold">{product.category}</p><h3 className="mt-1 font-display text-2xl">{product.name}</h3></div>
+        <div className="shrink-0 pt-4 text-right">
+          <p className="text-[0.67rem] uppercase tracking-wider text-ink-soft/75">Venta desde</p>
+          <p className="mt-0.5 text-sm font-medium">S/ {product.price.toLocaleString("es-PE")}</p>
+          {product.rentalPrice && <p className="mt-1 text-[0.7rem] text-ink-soft/80">Alquiler desde S/ {product.rentalPrice.toLocaleString("es-PE")}</p>}
+        </div>
       </div>
     </article>
   );

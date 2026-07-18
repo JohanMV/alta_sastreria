@@ -5,8 +5,8 @@ import { useCartStore } from "@/features/cart";
 import { whatsappUrl } from "@/lib/config";
 
 const nav = [
-  ["Inicio", "#inicio"], ["Colecciones", "#colecciones"], ["Alquiler", "#colecciones"],
-  ["Venta", "#colecciones"], ["Nosotros", "#nosotros"], ["Contacto", "#contacto"],
+  ["Inicio", "/#inicio"], ["Colecciones", "/#colecciones"], ["Alquiler", "/tienda?servicio=alquiler"],
+  ["Venta", "/tienda?servicio=venta"], ["Nosotros", "/#nosotros"], ["Contacto", "/#contacto"],
 ];
 
 export function Header() {
@@ -23,7 +23,7 @@ export function Header() {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition duration-500 ${scrolled || menuOpen ? "glass-nav border-b border-ink/10 text-ink" : "text-white"}`}>
       <div className="section-shell flex h-[72px] items-center justify-between lg:h-[86px]">
-        <a href="#inicio" className="relative z-10 flex flex-col" aria-label="NOBILE, ir al inicio"><span className="font-display text-[1.65rem] leading-none tracking-[0.16em]">NOBILE</span><span className="mt-1 text-[0.48rem] font-medium uppercase tracking-[0.34em] text-gold">Alta Sastrería</span></a>
+        <a href="/#inicio" className="relative z-10 flex flex-col" aria-label="NOBILE, ir al inicio"><span className="font-display text-[1.65rem] leading-none tracking-[0.16em]">NOBILE</span><span className="mt-1 text-[0.48rem] font-medium uppercase tracking-[0.34em] text-gold">Alta Sastrería</span></a>
         <nav className="hidden items-center gap-7 xl:flex" aria-label="Navegación principal">{nav.map(([label, href]) => <a key={label} href={href} className="text-[0.68rem] font-medium uppercase tracking-[0.13em] transition hover:text-gold">{label}</a>)}</nav>
         <div className="flex items-center gap-1 sm:gap-3">
           <a href={whatsappUrl("Hola, deseo agendar una cita en NOBILE Alta Sastrería.")} target="_blank" rel="noreferrer" className="hidden min-h-11 items-center gap-2 border border-current px-4 text-[0.62rem] font-semibold uppercase tracking-widest transition hover:border-gold hover:bg-gold hover:text-white sm:flex"><MessageCircle size={15} /> Agendar cita</a>

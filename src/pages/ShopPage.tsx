@@ -6,18 +6,6 @@ import { Reveal, SectionHeading } from "@/components/ui";
 export function ShopPage() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-
-    const handleHomeAnchor = (event: MouseEvent) => {
-      const target = event.target as Element | null;
-      const anchor = target?.closest<HTMLAnchorElement>('a[href^="#"]');
-      const href = anchor?.getAttribute("href");
-      if (!href) return;
-      event.preventDefault();
-      window.location.assign(`/${href}`);
-    };
-
-    document.addEventListener("click", handleHomeAnchor);
-    return () => document.removeEventListener("click", handleHomeAnchor);
   }, []);
 
   return (
@@ -34,7 +22,7 @@ export function ShopPage() {
           </Reveal>
         </div>
       </section>
-      <Catalog limit={null} showFullCollectionLink={false} showHeading={false} />
+      <Catalog limit={null} showFullCollectionLink={false} showHeading={false} showOccasionNav />
     </MainLayout>
   );
 }

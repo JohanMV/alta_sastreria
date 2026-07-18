@@ -10,7 +10,7 @@ const variants = {
   dark: "bg-ink text-white hover:bg-ink-soft border-ink",
   light: "bg-ivory-light text-ink hover:bg-white border-ivory-light",
   outline: "bg-transparent text-current hover:bg-gold hover:text-white border-current",
-  gold: "bg-gold text-white hover:bg-[#8f6d3b] border-gold",
+  gold: "bg-gold text-white hover:bg-[#654719] border-gold",
 };
 
 export function Button({ children, variant = "dark", full = false, className = "", ...props }: ButtonProps) {
