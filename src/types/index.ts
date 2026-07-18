@@ -1,6 +1,13 @@
 export type ServiceType = "venta" | "alquiler";
 export type Audience = "hombre" | "mujer";
 
+export interface ProductImage {
+  src: string;
+  alt: string;
+  focalX?: string;
+  focalY?: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -11,7 +18,7 @@ export interface Product {
   price: number;
   rentalPrice?: number;
   image: string;
-  gallery: string[];
+  gallery: ProductImage[];
   badge: string;
   sizes: string[];
 }

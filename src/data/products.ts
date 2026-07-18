@@ -1,8 +1,9 @@
-import type { Product } from "@/types";
+import type { Product, ProductImage } from "@/types";
 
 const productImage = (id: string): string => `/images/products/${id}-main.webp`;
-const productGallery = (id: string): string[] => [
-  `/images/products/${id}-main.webp`, `/images/products/${id}-detail.webp`,
+const productGallery = (id: string): ProductImage[] => [
+  { src: `/images/products/${id}-main.webp`, alt: `${id}, vista completa`, focalX: "50%", focalY: "50%" },
+  { src: `/images/products/${id}-detail.webp`, alt: `${id}, detalle de confección`, focalX: "50%", focalY: "50%" },
 ];
 
 export const products: Product[] = [

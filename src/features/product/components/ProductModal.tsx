@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { CalendarDays, Check, X } from "lucide-react";
-import { Button } from "@/components/ui";
+import { Button, ProductFrame } from "@/components/ui";
 import { useCartStore } from "@/features/cart";
 import { useDialogFocus } from "@/hooks";
 import type { Product, ServiceType } from "@/types";
@@ -47,12 +47,12 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
           transition={{ duration: 0.35 }}
         >
           <button onClick={onClose} className="absolute right-3 top-3 z-20 grid size-11 place-items-center bg-ivory-light text-ink transition hover:bg-gold hover:text-white sm:right-4 sm:top-4" aria-label="Cerrar ficha"><X size={19} /></button>
-          <div className="relative h-[32svh] min-h-60 max-h-[340px] bg-ink sm:h-auto sm:min-h-[460px] sm:max-h-none lg:min-h-[620px]">
-            <img src={product.gallery[activeImage]} alt={`${product.name}, vista ${activeImage + 1}`} className="absolute inset-0 h-full w-full object-cover" />
+          <div className="relative h-[32svh] min-h-60 max-h-[340px] bg-ivory sm:h-auto sm:min-h-[460px] sm:max-h-none lg:min-h-[620px]">
+            <ProductFrame image={product.gallery[activeImage]} className="absolute inset-0" />
             <div className="absolute bottom-3 left-3 flex gap-2 sm:bottom-4 sm:left-4">
               {product.gallery.map((image, index) => (
-                <button key={image} onClick={() => setActiveImage(index)} aria-label={`Ver imagen ${index + 1} de ${product.name}`} aria-pressed={activeImage === index} className={`size-12 overflow-hidden border-2 sm:size-16 ${activeImage === index ? "border-gold" : "border-white/80"}`}>
-                  <img src={image} alt="" className="h-full w-full object-cover" />
+                <button key={image.src} onClick={() => setActiveImage(index)} aria-label={`Ver imagen ${index + 1} de ${product.name}`} aria-pressed={activeImage === index} className={`size-12 overflow-hidden border-2 bg-ivory sm:size-16 ${activeImage === index ? "border-gold" : "border-white/80"}`}>
+                  <ProductFrame image={image} decorative className="relative h-full w-full" />
                 </button>
               ))}
             </div>
