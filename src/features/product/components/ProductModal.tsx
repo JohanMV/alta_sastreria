@@ -14,6 +14,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
   const [size, setSize] = useState("");
   const [service, setService] = useState<ServiceType>("venta");
   const [date, setDate] = useState("");
+  const [appointmentDate, setAppointmentDate] = useState("");
   const [activeImage, setActiveImage] = useState(0);
   const dialogRef = useDialogFocus<HTMLDivElement>(Boolean(product), onClose);
 
@@ -22,12 +23,21 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
     setSize(product.sizes[0]);
     setService(product.services[0]);
     setDate("");
+    setAppointmentDate("");
     setActiveImage(0);
   }, [product]);
 
   if (!product) return null;
   const price = service === "alquiler" ? product.rentalPrice ?? product.price : product.price;
-  const canAdd = Boolean(size && (service === "venta" || date));
+  const canAdd = service === "medida" ? Boolean(appointmentDate) : Boolean(size && (service === "venta" || date));
+  const today = new Date().toISOString().split("T")[0];
+
+  const selectService = (value: ServiceType) => {
+    setService(value);
+    setDate("");
+    setAppointmentDate("");
+    setSize(value === "medida" ? "" : product.sizes[0]);
+  };
 
   return (
     <AnimatePresence>
@@ -63,44 +73,79 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
             <h2 id="product-title" className="mt-3 font-display text-4xl sm:mt-4 sm:text-5xl">{product.name}</h2>
             <p id="product-description" className="mt-4 text-sm leading-6 text-ink-soft/80 sm:mt-5 sm:leading-7">{product.description}</p>
             <div className="mt-5 border-y border-ink/10 py-4 sm:mt-6">
-              <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-ink-soft/75">{service === "alquiler" ? "Alquiler desde" : "Venta desde"}</p>
-              <p className="mt-1 font-display text-3xl">S/ {price.toLocaleString("es-PE")}</p>
-              {product.rentalPrice && <p className="mt-1 text-xs text-ink-soft/75">Venta S/ {product.price.toLocaleString("es-PE")} · Alquiler S/ {product.rentalPrice.toLocaleString("es-PE")}</p>}
+              {service === "medida" ? (
+                <>
+                  <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-ink-soft/75">Confección a medida</p>
+                  <p className="mt-1 font-display text-3xl">Precio por cotizar</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-ink-soft/75">{service === "alquiler" ? "Alquiler desde" : "Venta desde"}</p>
+                  <p className="mt-1 font-display text-3xl">S/ {price.toLocaleString("es-PE")}</p>
+                  {product.rentalPrice && <p className="mt-1 text-xs text-ink-soft/75">Venta S/ {product.price.toLocaleString("es-PE")} · Alquiler S/ {product.rentalPrice.toLocaleString("es-PE")}</p>}
+                </>
+              )}
             </div>
 
             <fieldset className="mt-6">
               <legend className="mb-3 text-xs font-semibold uppercase tracking-widest">Servicio</legend>
-              <div className="flex gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 {product.services.map((value) => (
-                  <button key={value} onClick={() => setService(value)} className={`min-h-11 min-w-28 border px-4 py-3 text-xs uppercase tracking-wider transition ${service === value ? "border-ink bg-ink text-white" : "border-ink/25 hover:border-gold"}`}>
-                    {service === value && <Check size={13} className="mr-2 inline" />}{value}
+                  <button key={value} onClick={() => selectService(value)} aria-pressed={service === value} className={`min-h-11 min-w-0 border px-2 py-3 text-xs uppercase tracking-wider transition sm:px-4 ${service === value ? "border-ink bg-ink text-white" : "border-ink/25 hover:border-gold"}`}>
+                    {service === value && <Check size={13} className="mr-2 inline" />}{value === "medida" ? "A medida" : value}
                   </button>
                 ))}
               </div>
             </fieldset>
 
-            <fieldset className="mt-5">
-              <legend className="mb-3 text-xs font-semibold uppercase tracking-widest">Talla</legend>
-              <div className="flex flex-wrap gap-2">
-                {product.sizes.map((value) => <button key={value} onClick={() => setSize(value)} className={`grid size-11 place-items-center border text-xs transition ${size === value ? "border-ink bg-ink text-white" : "border-ink/25 hover:border-gold"}`}>{value}</button>)}
-              </div>
-            </fieldset>
+            {service !== "medida" && (
+              <fieldset className="mt-5">
+                <legend className="mb-3 text-xs font-semibold uppercase tracking-widest">Talla</legend>
+                <div className="flex flex-wrap gap-2">
+                  {product.sizes.map((value) => <button key={value} onClick={() => setSize(value)} className={`grid size-11 place-items-center border text-xs transition ${size === value ? "border-ink bg-ink text-white" : "border-ink/25 hover:border-gold"}`}>{value}</button>)}
+                </div>
+              </fieldset>
+            )}
 
             {service === "alquiler" && (
               <label className="mt-5 text-xs font-semibold uppercase tracking-widest">
                 Fecha del evento
                 <span className="relative mt-3 block">
                   <CalendarDays className="absolute left-4 top-1/2 -translate-y-1/2 text-gold" size={18} />
-                  <input type="date" required min={new Date().toISOString().split("T")[0]} value={date} onChange={(event) => setDate(event.target.value)} className="h-12 w-full border border-ink/25 bg-transparent pl-12 pr-3 text-sm" />
+                  <input type="date" required min={today} value={date} onChange={(event) => setDate(event.target.value)} className="h-12 w-full border border-ink/25 bg-transparent pl-12 pr-3 text-sm" />
                 </span>
               </label>
             )}
 
+            {service === "medida" && (
+              <div className="mt-5">
+                <p className="text-sm leading-6 text-ink-soft/80">Este servicio requiere una cita en nuestro atelier. Durante la visita tomaremos tus medidas y definiremos la tela, construcción, acabados y detalles de la prenda según tu ocasión.</p>
+                <label className="mt-5 block text-xs font-semibold uppercase tracking-widest">
+                  Fecha preferida para la cita
+                  <span className="relative mt-3 block">
+                    <CalendarDays className="absolute left-4 top-1/2 -translate-y-1/2 text-gold" size={18} />
+                    <input type="date" required min={today} value={appointmentDate} onInput={(event) => setAppointmentDate(event.currentTarget.value)} className="h-12 w-full border border-ink/25 bg-transparent pl-12 pr-3 text-sm" />
+                  </span>
+                </label>
+                <p className="mt-2 text-xs text-ink-soft/75">La fecha está sujeta a confirmación por WhatsApp.</p>
+              </div>
+            )}
+
             <div className="sticky bottom-0 z-10 -mx-5 -mb-5 mt-6 border-t border-ink/10 bg-ivory-light/95 px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-4 backdrop-blur sm:-mx-8 sm:-mb-8 sm:px-8 sm:pb-8 lg:static lg:mx-0 lg:mb-0 lg:border-0 lg:bg-transparent lg:px-0 lg:pb-0 lg:pt-0">
               <Button full disabled={!canAdd} onClick={() => {
-                addItem({ productId: product.id, name: product.name, service, size, date: service === "alquiler" ? date : undefined, quantity: 1, price, image: product.image });
+                addItem({
+                  productId: product.id,
+                  name: product.name,
+                  service,
+                  size: service === "medida" ? undefined : size,
+                  date: service === "alquiler" ? date : undefined,
+                  appointmentDate: service === "medida" ? appointmentDate : undefined,
+                  quantity: 1,
+                  price: service === "medida" ? undefined : price,
+                  image: product.image,
+                });
                 onClose();
-              }}>Agregar al carrito</Button>
+              }}>{service === "medida" ? "Agregar solicitud a mi selección" : "Agregar al carrito"}</Button>
             </div>
           </div>
         </motion.div>

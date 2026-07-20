@@ -16,7 +16,7 @@ export function ShopPage() {
             <SectionHeading
               eyebrow="Tienda NOBILE"
               title="Colección completa"
-              description="Descubre cada pieza disponible para venta y alquiler, creada para vestir tus ocasiones más importantes."
+              description="Descubre cada pieza disponible para venta, alquiler y confección a medida, creada para vestir tus ocasiones más importantes."
               light
             />
           </Reveal>

@@ -1,4 +1,4 @@
-export type ServiceType = "venta" | "alquiler";
+export type ServiceType = "venta" | "alquiler" | "medida";
 export type Audience = "hombre" | "mujer";
 
 export interface ProductImage {
@@ -28,9 +28,10 @@ export interface CartItem {
   productId: string;
   name: string;
   service: ServiceType;
-  size: string;
+  size?: string;
   date?: string;
+  appointmentDate?: string;
   quantity: number;
-  price: number;
+  price?: number;
   image: string;
 }

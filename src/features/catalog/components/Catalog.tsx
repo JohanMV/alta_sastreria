@@ -22,7 +22,7 @@ export function Catalog({ limit = 6, showFullCollectionLink = true, showHeading 
   const requestedAudience = searchParams.get("publico");
   const requestedCategory = searchParams.get("categoria");
   const [service, setService] = useState<ServiceFilter>(
-    limit === null && (requestedService === "venta" || requestedService === "alquiler") ? requestedService : "todos",
+    limit === null && (requestedService === "venta" || requestedService === "alquiler" || requestedService === "medida") ? requestedService : "todos",
   );
   const [audience, setAudience] = useState<AudienceFilter>(
     limit === null && (requestedAudience === "hombre" || requestedAudience === "mujer") ? requestedAudience : "todos",
@@ -32,7 +32,7 @@ export function Catalog({ limit = 6, showFullCollectionLink = true, showHeading 
 
   useEffect(() => {
     if (limit !== null) return;
-    if (requestedService === "venta" || requestedService === "alquiler") setService(requestedService);
+    if (requestedService === "venta" || requestedService === "alquiler" || requestedService === "medida") setService(requestedService);
     if (requestedAudience === "hombre" || requestedAudience === "mujer") setAudience(requestedAudience);
     if (requestedCategory) setCategory(requestedCategory);
   }, [limit, requestedService, requestedAudience, requestedCategory]);
@@ -88,7 +88,7 @@ export function Catalog({ limit = 6, showFullCollectionLink = true, showHeading 
           {showHeading && <Reveal><SectionHeading eyebrow="La colección" title="Prendas que dejan huella" description="Piezas seleccionadas para vestir decisiones, promesas y celebraciones. Cada una puede adaptarse a tus medidas." /></Reveal>}
           <div className="grid grid-cols-2 gap-2 sm:flex" aria-label="Filtros del catálogo">
             <select aria-label="Filtrar por servicio" value={service} onChange={(event) => setService(event.target.value as ServiceFilter)} className={filterClass}>
-              <option value="todos">Venta / Alquiler</option><option value="venta">Venta</option><option value="alquiler">Alquiler</option>
+              <option value="todos">Venta / Alquiler / A medida</option><option value="venta">Venta</option><option value="alquiler">Alquiler</option><option value="medida">A medida</option>
             </select>
             <select aria-label="Filtrar por público" value={audience} onChange={(event) => setAudience(event.target.value as AudienceFilter)} className={filterClass}>
               <option value="todos">Hombre / Mujer</option><option value="hombre">Hombre</option><option value="mujer">Mujer</option>

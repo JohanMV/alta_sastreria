@@ -14,12 +14,17 @@ export const useCartStore = create<CartState>((set) => ({
   items: [],
   isOpen: false,
   addItem: (item) => set((state) => ({
-    items: [...state.items, { ...item, id: `${item.productId}-${item.service}-${item.size}-${item.date ?? "now"}-${Date.now()}` }],
+    items: [...state.items, {
+      ...item,
+      id: `${item.productId}-${item.service}-${item.size ?? "sin-talla"}-${item.date ?? item.appointmentDate ?? "now"}-${Date.now()}`,
+    }],
     isOpen: true,
   })),
   removeItem: (id) => set((state) => ({ items: state.items.filter((item) => item.id !== id) })),
   changeQuantity: (id, delta) => set((state) => ({
-    items: state.items.map((item) => item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item),
+    items: state.items.map((item) => item.id === id && item.service !== "medida"
+      ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+      : item),
   })),
   setOpen: (isOpen) => set({ isOpen }),
 }));

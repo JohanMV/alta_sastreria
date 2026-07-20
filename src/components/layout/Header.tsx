@@ -6,7 +6,7 @@ import { whatsappUrl } from "@/lib/config";
 
 const nav = [
   ["Inicio", "/#inicio"], ["Colecciones", "/#colecciones"], ["Alquiler", "/tienda?servicio=alquiler"],
-  ["Venta", "/tienda?servicio=venta"], ["Nosotros", "/#nosotros"], ["Contacto", "/#contacto"],
+  ["Venta", "/tienda?servicio=venta"], ["A medida", "/tienda?servicio=medida"], ["Nosotros", "/#nosotros"], ["Contacto", "/#contacto"],
 ];
 
 export function Header() {
